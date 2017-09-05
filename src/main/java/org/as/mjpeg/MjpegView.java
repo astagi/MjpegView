@@ -10,6 +10,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -142,6 +143,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 									}
 								}
 							} catch (IOException e) {
+								Log.e("Erro", e.getMessage(), e);
 							}
 						}
 					} finally {
@@ -177,14 +179,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void stopPlayback() {
 		mRun = false;
-		boolean retry = true;
-		while (retry) {
-			try {
-				thread.join();
-				retry = false;
-			} catch (InterruptedException e) {
-			}
-		}
+        thread.interrupt();
 	}
 
 	public MjpegView(Context context, AttributeSet attrs) {
